@@ -7,12 +7,12 @@
         "build": "next build",
         "start": "next start",
         "lint": "eslint",
-        "prettier": "prettier --write \"**/*.{ts,tsx,json,scss}\"",
+        "prettier": "prettier --write \"**/*.{ts,tsx,json,css}\"",
         "lint-staged": "lint-staged",
         "prepare": "husky"
     },
     "lint-staged": {
-        "src/**/*.{ts,tsx,json,scss}": [
+        "src/**/*.{ts,tsx,json,css}": [
             "yarn prettier",
             "yarn lint"
         ]
