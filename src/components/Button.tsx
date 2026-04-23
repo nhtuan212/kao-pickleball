@@ -14,7 +14,7 @@ const Button = React.forwardRef(({ ...props }: ButtonProps, ref: React.Ref<HTMLB
         <ButtonNextUI
             ref={ref}
             {...props}
-            className={clsx("rounded-md", props.className)}
+            className={clsx("bg-primary rounded-md", props.className)}
             onPress={debouncedOnPress}
         >
             {props.children}
