@@ -1,8 +1,7 @@
 "use client";
 
 import { Session } from "next-auth";
-import { signOut } from "next-auth/react";
-import Button from "@/components/Button";
+import Header from "./Header";
 import { ToastProvider } from "@/components/Toast";
 import { useProfileStore } from "@/stores";
 import { useEffect } from "react";
@@ -22,11 +21,12 @@ export default function MainLayout({
         session && setProfile(session);
     }, [session, setProfile]);
 
+    //** Return */
     return (
         <div className="container mx-auto">
             <ToastProvider placement="top end" />
+            <Header />
             {children}
-            <Button onPress={async () => await signOut()}>Logout</Button>
         </div>
     );
 }

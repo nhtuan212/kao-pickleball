@@ -1,8 +1,9 @@
-import { Session } from "next-auth";
 import { create } from "zustand";
+import { Session } from "next-auth";
+import { IProfile } from "@/types";
 
 interface IProfileState {
-    profile: object | null;
+    profile: IProfile | null;
 }
 
 interface IProfileAction {

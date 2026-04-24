@@ -1,1 +1,18 @@
-export * from "./login";
+export interface ILogin {
+    id: string;
+    username: string;
+    role: string;
+    isActive: string;
+    accessToken: string;
+}
+
+export interface IProfile {
+    exp: number;
+    iat: number;
+    id: string;
+    isActive: boolean;
+    jti: string;
+    role: "ADMIN" | "USER";
+    sub?: string;
+    username: string;
+}

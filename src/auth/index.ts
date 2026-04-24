@@ -3,17 +3,20 @@ import type { DefaultSession, NextAuthOptions } from "next-auth";
 import { getServerSession } from "next-auth";
 import { authCredential } from "./authCredential";
 import { cookies } from "next/headers";
+import { IProfile } from "@/types";
 
 declare module "next-auth" {
-    interface User {
-        username: string;
-        role: string;
-        isActive: boolean;
+    interface User extends IProfile {
+        accessToken: string;
     }
-    interface Session {
-        user: {
-            role?: string;
-        } & DefaultSession["user"];
+    interface Session extends IProfile {
+        user: IProfile & DefaultSession["user"];
+    }
+}
+
+declare module "next-auth/jwt" {
+    interface JWT extends IProfile {
+        accessToken?: string;
     }
 }
 
@@ -32,7 +35,7 @@ export const config = {
 
                 // Set accessToken to cookie
                 const cookieStore = await cookies();
-                cookieStore.set("accessToken", (user as any).accessToken, {
+                cookieStore.set("accessToken", user.accessToken, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV === "production",
                     sameSite: "strict",

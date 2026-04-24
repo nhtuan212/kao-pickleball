@@ -1,4 +1,5 @@
 export const TEXT = {
+    APP_NAME: "Kao pickleball",
     USERNAME: "Username",
     PASSWORD: "Password",
     LOGIN: "Đăng nhập",

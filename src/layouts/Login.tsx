@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import Card from "@/components/Card";
 import Button from "@/components/Button";
+import Logo from "@/components/Logo";
 import ErrorMessage from "@/components/ErrorMessage";
 import { Input, InputGroup } from "@/components/Input";
 import { signIn } from "next-auth/react";
@@ -60,15 +60,8 @@ export default function Login() {
         >
             <Card className="flex flex-col items-center gap-y-4 w-full max-w-md p-4 border shadow-xl">
                 <Card.Header className="items-center gap-y-2">
-                    <Image
-                        className="w-24"
-                        src="/logo.svg"
-                        alt="Logo"
-                        width={100}
-                        height={20}
-                        priority
-                    />
-                    <h2 className="font-bold text-2xl">KAO PICKLEBALL</h2>
+                    <Logo className="w-24" />
+                    <h2 className="font-bold text-2xl uppercase">{TEXT.APP_NAME}</h2>
                     <h3>Hệ thống sân quản lý chuyên nghiệp</h3>
                 </Card.Header>
 
