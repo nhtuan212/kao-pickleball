@@ -25,13 +25,14 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const session = await auth(); // getServerSession
+    // getServerSession
+    const session = await auth();
 
     const renderLayout = () => {
         if (session) {
             return (
                 <Provider session={session}>
-                    <MainLayout />
+                    <MainLayout session={session}>{children}</MainLayout>
                 </Provider>
             );
         }

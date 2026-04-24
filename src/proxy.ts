@@ -1,13 +1,28 @@
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export { default } from "next-auth/middleware";
+const PUBLIC_ROUTES = ["/login", "/register"];
 
-export function proxy(req: NextRequest) {
-    console.log({ req });
-    return NextResponse.redirect(new URL("/login", req.url));
+export async function proxy(req: NextRequest) {
+    const token = await getToken({
+        req,
+        secret: process.env.NEXTAUTH_SECRET,
+    });
+
+    const { pathname } = req.nextUrl;
+
+    if (token && PUBLIC_ROUTES.includes(pathname)) {
+        return NextResponse.redirect(new URL("/", req.url));
+    }
+
+    if (!token && !PUBLIC_ROUTES.includes(pathname)) {
+        return NextResponse.redirect(new URL("/login", req.url));
+    }
+
+    return NextResponse.next();
 }
 
 export const config = {
-    matcher: ["/"],
+    matcher: ["/((?!api|_next|favicon.ico|.*\\..*).*)"],
 };

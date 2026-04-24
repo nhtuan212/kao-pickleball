@@ -32,3 +32,21 @@ body {
     /* Color */
     --color-primary: var(--color-green-500);
 }
+
+:root {
+    --accent: var(--color-primary); /* button color */
+    --accent-foreground: oklch(0.98 0 0); /* button text */
+    --accent-hover: oklch(0.55 0.2 250); /* hover state */
+}
+
+/* dark themes */
+/* [data-theme="dark"] {
+    --accent: oklch(0.7 0.18 250);
+    --accent-foreground: oklch(0.1 0 0);
+    --accent-hover: oklch(0.65 0.18 250);
+} */
+
+/* Common */
+* {
+    @apply leading-6 box-border;
+}

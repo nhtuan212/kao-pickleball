@@ -1,35 +1,109 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Card from "@/components/Card";
 import Button from "@/components/Button";
-import { Input } from "@/components/Input";
-import { TEXT } from "@/constants";
+import ErrorMessage from "@/components/ErrorMessage";
+import { Input, InputGroup } from "@/components/Input";
+import { signIn } from "next-auth/react";
+import { useAppForm } from "@/hooks";
+import { loginSchema } from "@/utils";
+import { ROUTE, STATUS_CODE, TEXT } from "@/constants";
+import { Eye, EyeOff } from "lucide-react";
+
+interface ILogin {
+    username: string;
+    password: string;
+}
 
 export default function Login() {
+    const router = useRouter();
+
+    //** States */
+    const [isVisible, setIsVisible] = useState(false);
+    const [isError, setIsError] = useState(false);
+
+    //** Use App Form */
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useAppForm<ILogin>({
+        schema: loginSchema,
+        defaultValues: {
+            username: "",
+            password: "",
+        },
+    });
+
     //** Function */
-    const handleLogin = () => {
-        console.log("ok");
+    const handleLogin = async (data: ILogin) => {
+        await signIn("credentials", { ...data, redirect: false }).then(res => {
+            if (!res || res.status !== STATUS_CODE.OK) {
+                setIsError(true);
+                return;
+            }
+
+            setIsError(false);
+            router.push(ROUTE.HOME);
+            router.refresh();
+        });
     };
 
     //** Render */
     return (
-        <div className="min-h-screen flex justify-center items-center">
+        <form
+            className="min-h-screen flex justify-center items-center"
+            onSubmit={handleSubmit(handleLogin)}
+        >
             <Card className="flex flex-col items-center gap-y-4 w-full max-w-md p-4 border shadow-xl">
                 <Card.Header className="items-center gap-y-2">
-                    <Image src="./logo.svg" alt="Logo" width={100} height={20} priority />
+                    <Image
+                        className="w-24"
+                        src="/logo.svg"
+                        alt="Logo"
+                        width={100}
+                        height={20}
+                        priority
+                    />
                     <h2 className="font-bold text-2xl">KAO PICKLEBALL</h2>
                     <h3>Hệ thống sân quản lý chuyên nghiệp</h3>
                 </Card.Header>
 
                 <Card.Content className="w-full space-y-2">
-                    <Input placeholder={TEXT.USERNAME} />
-                    <Input placeholder={TEXT.PASSWORD} />
-                    <Button className="w-full" onPress={handleLogin}>
+                    <Input
+                        {...register("username")}
+                        placeholder={TEXT.USERNAME}
+                        errorMessage={errors.username}
+                    />
+
+                    <InputGroup errorMessage={errors.password}>
+                        <InputGroup.Input
+                            className="w-full"
+                            {...register("password")}
+                            type={!isVisible ? "password" : "text"}
+                            placeholder={TEXT.PASSWORD}
+                        />
+                        <InputGroup.Suffix>
+                            <Button
+                                isIconOnly
+                                variant="ghost"
+                                onPress={() => setIsVisible(!isVisible)}
+                            >
+                                {!isVisible ? <Eye /> : <EyeOff />}
+                            </Button>
+                        </InputGroup.Suffix>
+                    </InputGroup>
+
+                    {isError && <ErrorMessage>{TEXT.LOGIN_FAILED}</ErrorMessage>}
+
+                    <Button className="w-full" type="submit">
                         {TEXT.LOGIN}
                     </Button>
                 </Card.Content>
             </Card>
-        </div>
+        </form>
     );
 }

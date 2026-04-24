@@ -1,5 +1,5 @@
 {
     "css.lint.unknownAtRules": "ignore",
     "css.customData": [".vscode/css-custom-data.json"],
-    "cSpell.words": ["Binayu", "pickleball", "heroui"]
+    "cSpell.words": ["Binayu", "pickleball", "heroui", "NEXTAUTH"]
 }

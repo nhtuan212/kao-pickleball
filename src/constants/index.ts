@@ -19,4 +19,9 @@ export const ROLE = {
     STAFF: "STAFF",
 };
 
+export const ROUTE = {
+    HOME: "/",
+    LOGIN: "/login",
+};
+
 export * from "./text";

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 import { Button as ButtonNextUI, ButtonProps } from "@heroui/react";
 import { useDebounce } from "@/hooks";
 
@@ -14,7 +14,10 @@ const Button = React.forwardRef(({ ...props }: ButtonProps, ref: React.Ref<HTMLB
         <ButtonNextUI
             ref={ref}
             {...props}
-            className={clsx("bg-primary rounded-md", props.className)}
+            className={twMerge(
+                "rounded-md",
+                typeof props.className === "string" && props.className,
+            )}
             onPress={debouncedOnPress}
         >
             {props.children}
