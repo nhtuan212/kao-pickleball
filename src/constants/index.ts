@@ -22,6 +22,7 @@ export const ROLE = {
 export const ROUTE = {
     HOME: "/",
     LOGIN: "/login",
+    PLAYER: "/player",
 };
 
 export * from "./text";
