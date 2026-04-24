@@ -1,5 +1,8 @@
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+// Check router unnecessary the cookie
+export const PUBLIC_ROUTES = ["/login", "/register", "/refresh-token"];
+
 export const STATUS_CODE = {
     OK: 200,
     CREATED: 201,

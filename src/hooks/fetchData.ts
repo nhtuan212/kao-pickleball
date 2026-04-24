@@ -1,14 +1,11 @@
-import { BASE_URL } from "@/constants";
 import { getCookie } from "@/utils/getCookie";
-
-// Check router unnecessary the cookie
-const PUBLIC_ENDPOINTS = ["/login", "/register", "/refresh-token"];
+import { BASE_URL, PUBLIC_ROUTES } from "@/constants";
 
 export const fetchData = async (endpoint: string | URL, options?: RequestInit) => {
     const { accessToken } = await getCookie();
     const url = `${BASE_URL}${endpoint}`;
 
-    const isPublic = PUBLIC_ENDPOINTS.some(e => endpoint.toString().startsWith(e));
+    const isPublic = PUBLIC_ROUTES.some(e => endpoint.toString().startsWith(e));
 
     return await fetch(url, {
         headers: {
