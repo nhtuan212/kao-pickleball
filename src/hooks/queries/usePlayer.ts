@@ -4,11 +4,11 @@ import { convertKeysToCamelCase } from "@/utils";
 import { ROUTE } from "@/constants";
 
 export const usePlayer = () => {
-    const queryKey = "player";
+    const queryKey = ["player"];
     const endpoint = ROUTE.PLAYER;
 
     const { isPending, data: players } = useQuery({
-        queryKey: [queryKey],
+        queryKey,
         queryFn: () => fetchData(endpoint).then(res => convertKeysToCamelCase(res)),
     });
 

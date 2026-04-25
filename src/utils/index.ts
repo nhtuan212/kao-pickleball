@@ -1,3 +1,10 @@
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 /**
  * Converts a string from snake_case to camelCase.
  *
@@ -22,6 +29,17 @@ export const convertKeysToCamelCase = <T = any>(obj: { [key: string]: any }): T 
     } else {
         return obj;
     }
+};
+
+export const formatDate = (
+    date: Date | string | number | null,
+    format: string = "DD/MM/YYYY",
+    locale: string = "vi",
+    timeZone: string = "Asia/Ho_Chi_Minh",
+) => {
+    if (!date) return "undefined";
+
+    return dayjs.utc(date).tz(timeZone).locale(locale).format(format);
 };
 
 export * from "./schema";

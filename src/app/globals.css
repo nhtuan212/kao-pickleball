@@ -28,6 +28,8 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Custom tailwind */
+
 @theme {
     /* Color */
     --color-primary: var(--color-green-500);
@@ -49,4 +51,8 @@ body {
 /* Common */
 * {
     @apply leading-6 box-border;
+}
+
+.title {
+    @apply font-bold text-xl;
 }

@@ -1,5 +1,5 @@
-import React from "react";
+import Match from "@/layouts/Match";
 
 export default function MatchPage() {
-    return <div>MatchPage</div>;
+    return <Match />;
 }

@@ -8,4 +8,7 @@ export const TEXT = {
     FIELD_REQUIRED: "Field này bắt buộc",
     MATCH: "Trận đấu",
     PLAYER: "Người chơi",
+    CHECK_IN: "Check-in",
+    CHECK_OUT: "Check-out",
+    START: "Bắt đầu",
 };

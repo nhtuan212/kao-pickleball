@@ -23,3 +23,5 @@ export interface IMenu {
     icon: React.ReactNode;
     roles: string[];
 }
+
+export * from "./match";
