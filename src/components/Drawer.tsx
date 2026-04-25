@@ -1,5 +1,5 @@
 import { useDrawerStore } from "@/stores";
-import { Drawer as DrawerHeroUI, DrawerContentProps } from "@heroui/react";
+import { Drawer as DrawerHeroUI, DrawerContentProps, Button } from "@heroui/react";
 
 const Drawer = ({
     isOpen,
@@ -22,6 +22,9 @@ const Drawer = ({
     //** Render */
     return (
         <DrawerHeroUI>
+            {/* This is a must to bypass the PressResponder error */}
+            <Button className="hidden" />
+
             <DrawerHeroUI.Backdrop
                 isDismissable={isDismissable}
                 isOpen={isOpen}
