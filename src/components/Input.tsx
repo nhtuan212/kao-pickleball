@@ -17,24 +17,26 @@ type TInputGroup = InputGroupProps & {
     errorMessage?: ErrorOption;
 };
 
-export const Input = React.forwardRef(
-    ({ errorMessage, ...props }: TInput, ref: React.Ref<HTMLInputElement>) => {
-        return (
-            <>
-                <InputHeroUI
-                    ref={ref}
-                    {...props}
-                    className={twMerge(
-                        "border border-gray-300 rounded-md",
-                        typeof props.className === "string" && props.className,
-                    )}
-                />
+export const Input = ({
+    ref,
+    errorMessage,
+    ...props
+}: TInput & { ref: React.Ref<HTMLInputElement> }) => {
+    return (
+        <>
+            <InputHeroUI
+                ref={ref}
+                {...props}
+                className={twMerge(
+                    "border border-gray-300 rounded-md",
+                    typeof props.className === "string" && props.className,
+                )}
+            />
 
-                {errorMessage && <ErrorMessage>{errorMessage.message}</ErrorMessage>}
-            </>
-        );
-    },
-);
+            {errorMessage && <ErrorMessage>{errorMessage.message}</ErrorMessage>}
+        </>
+    );
+};
 
 const InputGroupBase = ({ errorMessage, ...props }: TInputGroup) => {
     return (

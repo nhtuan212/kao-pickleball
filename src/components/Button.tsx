@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { Button as ButtonNextUI, ButtonProps } from "@heroui/react";
 import { useDebounce } from "@/hooks";
 
-const Button = React.forwardRef(({ ...props }: ButtonProps, ref: React.Ref<HTMLButtonElement>) => {
+const Button = ({ ref, ...props }: ButtonProps & { ref?: React.Ref<HTMLInputElement> }) => {
     //** Functions */
     const debouncedOnPress = useDebounce(props.onPress ?? (() => {}));
 
@@ -23,6 +23,6 @@ const Button = React.forwardRef(({ ...props }: ButtonProps, ref: React.Ref<HTMLB
             {props.children}
         </ButtonNextUI>
     );
-});
+};
 
 export default Button;

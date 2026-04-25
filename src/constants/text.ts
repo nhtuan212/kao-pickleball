@@ -11,4 +11,9 @@ export const TEXT = {
     CHECK_IN: "Check-in",
     CHECK_OUT: "Check-out",
     START: "Bắt đầu",
+    NAME: "Tên",
+    GENDER: "Giới tính",
+    LEVEL: "Level",
+    EDIT: "Cập nhập",
+    DELETE: "Xóa",
 };

@@ -1,5 +1,5 @@
-import React from "react";
+import Player from "@/layouts/Player";
 
 export default function PlayerPage() {
-    return <div>PlayerPage</div>;
+    return <Player />;
 }

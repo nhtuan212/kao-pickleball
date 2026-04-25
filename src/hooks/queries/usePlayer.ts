@@ -9,7 +9,7 @@ export const usePlayer = () => {
 
     const { isPending, data: players } = useQuery({
         queryKey,
-        queryFn: () => fetchData(endpoint).then(res => convertKeysToCamelCase(res)),
+        queryFn: () => fetchData(endpoint).then(res => convertKeysToCamelCase(res.data)),
     });
 
     return {

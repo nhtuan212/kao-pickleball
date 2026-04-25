@@ -29,16 +29,20 @@ body {
 }
 
 /* Custom tailwind */
-
-@theme {
+@theme inline {
     /* Color */
     --color-primary: var(--color-green-500);
+    --color-primary-50: var(--color-green-50);
+    --color-primary-100: var(--color-green-100);
+    --color-primary-200: var(--color-green-200);
+    --color-primary-300: var(--color-green-300);
+    --color-primary-400: var(--color-green-400);
 }
 
 :root {
     --accent: var(--color-primary); /* button color */
     --accent-foreground: oklch(0.98 0 0); /* button text */
-    --accent-hover: oklch(0.55 0.2 250); /* hover state */
+    --accent-hover: var(--color-primary); /* hover state */
 }
 
 /* dark themes */
