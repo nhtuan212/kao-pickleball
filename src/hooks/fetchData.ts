@@ -1,5 +1,6 @@
 import { getCookie } from "@/utils/getCookie";
-import { BASE_URL, PUBLIC_ROUTES } from "@/constants";
+import { signOut } from "next-auth/react";
+import { BASE_URL, PUBLIC_ROUTES, STATUS_CODE } from "@/constants";
 
 export const fetchData = async (endpoint: string | URL, options?: RequestInit) => {
     const { accessToken } = await getCookie();
@@ -15,7 +16,13 @@ export const fetchData = async (endpoint: string | URL, options?: RequestInit) =
         },
         ...options,
     })
-        .then(res => res.json())
+        .then(async res => {
+            if (res.status === STATUS_CODE.UNAUTHORIZED) {
+                return await signOut();
+            }
+
+            return res.json();
+        })
         .catch(() => {
             throw new Error("Failed to fetch data");
         });
