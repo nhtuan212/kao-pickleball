@@ -16,3 +16,10 @@ export interface IProfile {
     sub?: string;
     username: string;
 }
+
+export interface IMenu {
+    url: string;
+    label: string;
+    icon: React.ReactNode;
+    roles: string[];
+}

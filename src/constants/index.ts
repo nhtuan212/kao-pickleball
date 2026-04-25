@@ -25,6 +25,7 @@ export const ROLE = {
 export const ROUTE = {
     HOME: "/",
     LOGIN: "/login",
+    MATCH: "/match",
     PLAYER: "/player",
 };
 
