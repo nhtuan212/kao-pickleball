@@ -16,7 +16,10 @@ export const TEXT = {
     GENDER: "Giới tính",
     LEVEL: "Level",
     ADD: "Thêm",
-    EDIT: "Cập nhập",
+    UPDATE: "Cập nhập",
     DELETE: "Xóa",
-    SUBMIT: "Lưu",
+    CONFIRM_DELETE: "Bạn có chắc chắn muốn xóa",
+    SUBMIT: "Xác nhận",
+    SUCCESSFULLY: "Thành công",
+    CANCEL: "Hủy",
 };

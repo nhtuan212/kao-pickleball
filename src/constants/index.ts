@@ -30,3 +30,4 @@ export const ROUTE = {
 };
 
 export * from "./text";
+export * from "./gender";

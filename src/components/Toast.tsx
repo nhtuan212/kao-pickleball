@@ -2,7 +2,7 @@ import { ToastContentValue, Toast as ToastHeroUI, ToastQueue, ToastVariants } fr
 
 const toastQueue = new ToastQueue({ maxVisibleToasts: 3 });
 
-// Provider — đặt trong layout
+// Provider
 export const ToastProvider = ({ placement }: { placement: ToastVariants["placement"] }) => {
     return <ToastHeroUI.Provider placement={placement} queue={toastQueue} />;
 };

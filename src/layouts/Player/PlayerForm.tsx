@@ -1,25 +1,52 @@
 import Button from "@/components/Button";
+import Label from "@/components/Label";
+import { toast } from "@/components/Toast";
 import { Input } from "@/components/Input";
-import { TEXT } from "@/constants";
-import { useAppForm } from "@/hooks";
-import { playerSchema, TPlayerForm } from "@/utils";
-import { Label } from "@heroui/react";
+import { Select } from "@/components/Select";
+import { useModalStore } from "@/stores";
+import { useAppForm, useDebounce } from "@/hooks";
+import { usePlayer } from "@/hooks/queries";
+import { playerSchema } from "@/utils";
+import { GENDER_OPTIONS, TEXT } from "@/constants";
+import { IPlayer } from "@/types";
+import { Controller } from "react-hook-form";
 
-export default function PlayerForm() {
+export default function PlayerForm({ player }: { player?: IPlayer }) {
+    //** Stores */
+    const { closeModal } = useModalStore();
+
+    //** Queries */
+    const { createPlayer, updatePlayer } = usePlayer();
+
     //** Use App Form */
     const {
         register,
+        control,
         handleSubmit,
         formState: { errors },
-    } = useAppForm<TPlayerForm>({
+    } = useAppForm<IPlayer>({
         schema: playerSchema,
-        defaultValues: playerSchema.parse({}),
+        defaultValues: playerSchema.parse(player || {}),
     });
 
     //** Functions */
-    const handleSubmitPlayer = async (data: TPlayerForm) => {
-        console.log({ data });
-    };
+    const handleSubmitPlayer = useDebounce(async (data: IPlayer) => {
+        if (player) {
+            return updatePlayer({ id: player.id, body: data }).then(
+                () =>
+                    toast({
+                        title: (
+                            <div className="first-letter:uppercase lowercase">
+                                {`${TEXT.UPDATE} ${TEXT.PLAYER} ${TEXT.SUCCESSFULLY} !`}
+                            </div>
+                        ),
+                    }),
+                closeModal(),
+            );
+        }
+
+        createPlayer(data);
+    });
 
     //** Render */
     return (
@@ -47,11 +74,27 @@ export default function PlayerForm() {
 
                 <div>
                     <Label>{TEXT.GENDER}</Label>
-                    <Input
-                        className="w-full"
-                        {...register("gender")}
-                        placeholder={TEXT.GENDER}
-                        errorMessage={errors.gender}
+                    <Controller
+                        control={control}
+                        name="gender"
+                        render={({ field }) => (
+                            <Select
+                                value={field.value}
+                                onChange={field.onChange}
+                                onBlur={field.onBlur}
+                                errorMessage={errors.gender}
+                            >
+                                {GENDER_OPTIONS.map(gender => (
+                                    <Select.Item
+                                        key={gender.id}
+                                        id={gender.id}
+                                        textValue={gender.value}
+                                    >
+                                        {gender.value}
+                                    </Select.Item>
+                                ))}
+                            </Select>
+                        )}
                     />
                 </div>
 
