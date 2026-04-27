@@ -6,6 +6,7 @@ import Card from "@/components/Card";
 import Button from "@/components/Button";
 import Logo from "@/components/Logo";
 import ErrorMessage from "@/components/ErrorMessage";
+import Label from "@/components/Label";
 import { Input, InputGroup } from "@/components/Input";
 import { signIn } from "next-auth/react";
 import { useAppForm } from "@/hooks";
@@ -66,29 +67,36 @@ export default function Login() {
                 </Card.Header>
 
                 <Card.Content className="w-full space-y-2">
-                    <Input
-                        {...register("username")}
-                        placeholder={TEXT.USERNAME}
-                        errorMessage={errors.username}
-                    />
-
-                    <InputGroup errorMessage={errors.password}>
-                        <InputGroup.Input
-                            className="w-full"
-                            {...register("password")}
-                            type={!isVisible ? "password" : "text"}
-                            placeholder={TEXT.PASSWORD}
+                    <div className="flex flex-col">
+                        <Label>{TEXT.USERNAME}</Label>
+                        <Input
+                            {...register("username")}
+                            placeholder={TEXT.USERNAME}
+                            errorMessage={errors.username}
                         />
-                        <InputGroup.Suffix>
-                            <Button
-                                isIconOnly
-                                variant="ghost"
-                                onPress={() => setIsVisible(!isVisible)}
-                            >
-                                {!isVisible ? <Eye /> : <EyeOff />}
-                            </Button>
-                        </InputGroup.Suffix>
-                    </InputGroup>
+                    </div>
+
+                    <div className="flex flex-col">
+                        <Label>{TEXT.PASSWORD}</Label>
+
+                        <InputGroup errorMessage={errors.password}>
+                            <InputGroup.Input
+                                className="w-full"
+                                {...register("password")}
+                                type={!isVisible ? "password" : "text"}
+                                placeholder={TEXT.PASSWORD}
+                            />
+                            <InputGroup.Suffix>
+                                <Button
+                                    isIconOnly
+                                    variant="ghost"
+                                    onPress={() => setIsVisible(!isVisible)}
+                                >
+                                    {!isVisible ? <Eye /> : <EyeOff />}
+                                </Button>
+                            </InputGroup.Suffix>
+                        </InputGroup>
+                    </div>
 
                     {isError && <ErrorMessage>{TEXT.LOGIN_FAILED}</ErrorMessage>}
 

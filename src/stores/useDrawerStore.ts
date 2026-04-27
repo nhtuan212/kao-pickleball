@@ -1,11 +1,11 @@
 import React from "react";
 import { create } from "zustand";
+import { DrawerBackdropProps, DrawerContentProps } from "@heroui/react";
 
-interface DrawerProps {
-    isOpen: boolean;
+interface DrawerProps extends DrawerBackdropProps, DrawerContentProps {
     isClose?: boolean;
     header?: React.ReactNode;
-    body: React.ReactNode;
+    body?: React.ReactNode;
     footer?: React.ReactNode;
 }
 
@@ -14,17 +14,19 @@ interface IDrawerState {
 }
 
 interface IDrawerAction {
-    setDrawer: ({ isOpen, isClose, header, body, footer }: DrawerProps) => void;
+    setDrawer: ({
+        isClose,
+        header,
+        body,
+        footer,
+    }: DrawerProps & DrawerContentProps & DrawerBackdropProps) => void;
     closeDrawer: () => void;
 }
 
 const initialState: IDrawerState = {
     drawer: {
-        isOpen: false,
         isClose: false,
-        header: "",
-        body: "",
-        footer: "",
+        placement: "left",
     },
 };
 
@@ -33,11 +35,8 @@ export const useDrawerStore = create<IDrawerState & IDrawerAction>(set => ({
 
     setDrawer: props => {
         return set(() => ({
-            drawer: {
-                ...props,
-            },
+            drawer: { ...initialState.drawer, ...props },
         }));
     },
-
     closeDrawer: () => set(() => ({ ...initialState })),
 }));

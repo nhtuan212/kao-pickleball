@@ -12,8 +12,11 @@ export const TEXT = {
     CHECK_OUT: "Check-out",
     START: "Bắt đầu",
     NAME: "Tên",
+    PHONE: "Số điện thoại",
     GENDER: "Giới tính",
     LEVEL: "Level",
+    ADD: "Thêm",
     EDIT: "Cập nhập",
     DELETE: "Xóa",
+    SUBMIT: "Lưu",
 };

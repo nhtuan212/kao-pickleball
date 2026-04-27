@@ -21,7 +21,7 @@ export const Input = ({
     ref,
     errorMessage,
     ...props
-}: TInput & { ref: React.Ref<HTMLInputElement> }) => {
+}: TInput & { ref?: React.Ref<HTMLInputElement> }) => {
     return (
         <>
             <InputHeroUI
@@ -48,6 +48,7 @@ const InputGroupBase = ({ errorMessage, ...props }: TInputGroup) => {
                     typeof props.className === "string" && props.className,
                 )}
             />
+
             {errorMessage && <ErrorMessage>{errorMessage.message}</ErrorMessage>}
         </>
     );

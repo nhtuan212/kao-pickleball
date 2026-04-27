@@ -1,48 +1,42 @@
+import { useEffect } from "react";
+import { Drawer as DrawerHeroUI, Button, useOverlayState } from "@heroui/react";
 import { useDrawerStore } from "@/stores";
-import { Drawer as DrawerHeroUI, DrawerContentProps, Button } from "@heroui/react";
 
-const Drawer = ({
-    isOpen,
-    isClose,
-    isDismissable = true,
-    className = "w-xs",
-    placement = "left",
-    children,
-}: {
-    isOpen?: boolean;
-    isClose?: boolean;
-    isDismissable?: boolean;
-    className?: string;
-    placement?: DrawerContentProps["placement"];
-    children: React.ReactNode;
-}) => {
+const Drawer = () => {
     //** Stores */
-    const { closeDrawer } = useDrawerStore();
+    const { drawer, closeDrawer } = useDrawerStore();
+
+    const { isOpen, isClose, placement, header, body, footer, ...drawerProps } = drawer;
+
+    //** Variables */
+    const state = useOverlayState({
+        onOpenChange: isOpen => !isOpen && closeDrawer(),
+    });
+    const { open, close } = state;
+
+    //** Effects */
+    useEffect(() => {
+        isOpen ? open() : close();
+    }, [isOpen, open, close]);
 
     //** Render */
     return (
-        <DrawerHeroUI>
+        <DrawerHeroUI state={state}>
             {/* This is a must to bypass the PressResponder error */}
             <Button className="hidden" />
 
-            <DrawerHeroUI.Backdrop
-                isDismissable={isDismissable}
-                isOpen={isOpen}
-                onOpenChange={() => closeDrawer()}
-            >
-                <DrawerHeroUI.Content className={className} placement={placement}>
+            <DrawerHeroUI.Backdrop {...drawerProps}>
+                <DrawerHeroUI.Content placement={placement}>
                     <DrawerHeroUI.Dialog>
                         {isClose && <DrawerHeroUI.CloseTrigger />}
-                        {children}
+                        <DrawerHeroUI.Header>{header}</DrawerHeroUI.Header>
+                        <DrawerHeroUI.Body>{body}</DrawerHeroUI.Body>
+                        <DrawerHeroUI.Footer>{footer}</DrawerHeroUI.Footer>
                     </DrawerHeroUI.Dialog>
                 </DrawerHeroUI.Content>
             </DrawerHeroUI.Backdrop>
         </DrawerHeroUI>
     );
 };
-
-Drawer.Header = DrawerHeroUI.Header;
-Drawer.Body = DrawerHeroUI.Body;
-Drawer.Footer = DrawerHeroUI.Footer;
 
 export { Drawer };
