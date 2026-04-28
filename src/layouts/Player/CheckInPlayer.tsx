@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { twMerge } from "tailwind-merge";
 import Card from "@/components/Card";
 import Button from "@/components/Button";
 import { InputGroup } from "@/components/Input";
@@ -73,7 +74,10 @@ export default function CheckInPlayer({ matchId }: { matchId: IMatch["id"] }) {
                     {sortedPlayers.map(player => (
                         <Card
                             key={player.id}
-                            className="flex-row justify-between items-center py-2 border"
+                            className={twMerge(
+                                "flex-row justify-between items-center py-2 border",
+                                isCheckedIn(player.id) && "bg-primary-100 border-primary",
+                            )}
                         >
                             <Card.Content className="gap-0">
                                 <p className="font-semibold">{player.name}</p>
