@@ -27,6 +27,7 @@ export const ROUTE = {
     LOGIN: "/login",
     MATCH: "/match",
     PLAYER: "/player",
+    CHECK_IN: "/check-in",
 };
 
 export * from "./text";

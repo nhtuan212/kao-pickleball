@@ -22,4 +22,5 @@ export const TEXT = {
     SUBMIT: "Xác nhận",
     SUCCESSFULLY: "Thành công",
     CANCEL: "Hủy",
+    SEARCH: "Tìm kiếm",
 };

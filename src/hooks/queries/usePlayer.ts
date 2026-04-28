@@ -5,11 +5,11 @@ import { ROUTE } from "@/constants";
 import { IPlayer } from "@/types";
 
 export const usePlayer = () => {
-    const queryClient = useQueryClient();
     const queryKey = ["player"];
     const endpoint = ROUTE.PLAYER;
+    const queryClient = useQueryClient();
 
-    const { isPending, data: players } = useQuery({
+    const { isPending, data: players = [] } = useQuery<IPlayer, Error, IPlayer[]>({
         queryKey,
         queryFn: () => fetchData(endpoint).then(res => convertKeysToCamelCase(res.data)),
     });

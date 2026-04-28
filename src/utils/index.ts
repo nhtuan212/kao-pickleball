@@ -42,4 +42,11 @@ export const formatDate = (
     return dayjs.utc(date).tz(timeZone).locale(locale).format(format);
 };
 
+//** Support Vietnamese text search */
+export const normalize = (str: string) =>
+    str
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+
 export * from "./schema";
