@@ -28,7 +28,7 @@ export default function Header() {
             <div className="flex items-center gap-2">
                 <Button
                     isIconOnly
-                    className="sm:hidden"
+                    className="lg:hidden"
                     variant="ghost"
                     onPress={() =>
                         setDrawer({

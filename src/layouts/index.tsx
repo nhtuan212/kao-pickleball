@@ -31,7 +31,7 @@ export default function MainLayout({
             <Header />
 
             <div className="flex gap-2">
-                <nav className="hidden sm:block w-64 min-h-screen bg-slate-50 p-4 border-r">
+                <nav className="hidden lg:block w-64 min-h-screen bg-slate-50 p-4 border-r">
                     <Navbar />
                 </nav>
                 <div className="flex-1 p-4 sm:p-6">{children}</div>

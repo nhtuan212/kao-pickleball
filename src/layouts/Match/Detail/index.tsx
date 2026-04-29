@@ -1,12 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import Chip from "@/components/Chip";
 import PlayerInMatch from "@/layouts/Player/PlayerInMatch";
+import Court from "@/layouts/Court";
+import Chip from "@/components/Chip";
 import Button from "@/components/Button";
 import { Tab } from "@/components/Tab";
 import { ArrowLeft, Users } from "lucide-react";
-import { useMatch } from "@/hooks/queries";
+import { useCheckIn, useMatch } from "@/hooks/queries";
 import { formatDate } from "@/utils";
 import { ROUTE, TEXT } from "@/constants";
 import { IMatch } from "@/types";
@@ -16,18 +17,22 @@ export default function MatchDetail({ slug }: { slug: IMatch["id"] }) {
 
     //** Queries */
     const { match } = useMatch(slug);
+    const { checkInPlayers } = useCheckIn(slug);
+
+    //** Return */
+    if (!match) return null;
 
     //** Tab configs */
     const TABS = [
         {
             id: TEXT.MATCH,
             label: TEXT.MATCH,
-            content: <p>View your project overview and recent activity.</p>,
+            content: <Court players={checkInPlayers} courtCount={match.court} />,
         },
         {
             id: TEXT.PLAYER,
             label: TEXT.PLAYER,
-            content: <PlayerInMatch matchId={slug} />,
+            content: <PlayerInMatch players={checkInPlayers} />,
         },
         {
             id: TEXT.HISTORY,
@@ -35,9 +40,6 @@ export default function MatchDetail({ slug }: { slug: IMatch["id"] }) {
             content: <p>Generate and download detailed reports.</p>,
         },
     ];
-
-    //** Return */
-    if (!match) return null;
 
     return (
         <div className="flex flex-col gap-4">
