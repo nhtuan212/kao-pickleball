@@ -1,3 +1,4 @@
+import { useRouter } from "next/navigation";
 import MatchForm from "./MatchForm";
 import CheckInPlayer from "../Player/CheckInPlayer";
 import ConfirmModal from "@/components/ConfirmModal";
@@ -8,10 +9,12 @@ import { Calendar, Clock, Edit, PanelsTopLeft, Play, Trash, UserCheck, Users } f
 import { useModalStore } from "@/stores";
 import { useMatch } from "@/hooks/queries";
 import { formatDate } from "@/utils";
-import { TEXT } from "@/constants";
+import { ROUTE, TEXT } from "@/constants";
 import { IMatch } from "@/types";
 
 export default function MatchItem({ match }: { match: IMatch }) {
+    const router = useRouter();
+
     //** Stores */
     const { setModal, closeModal } = useModalStore();
 
@@ -113,7 +116,11 @@ export default function MatchItem({ match }: { match: IMatch }) {
                     <UserCheck className="w-4 h-4" />
                     {TEXT.CHECK_IN}
                 </Button>
-                <Button size="sm" className="flex-1">
+                <Button
+                    size="sm"
+                    className="flex-1"
+                    onPress={() => router.push(`${ROUTE.MATCH}/${match.id}`)}
+                >
                     <Play className="w-4 h-4" />
                     {TEXT.START}
                 </Button>

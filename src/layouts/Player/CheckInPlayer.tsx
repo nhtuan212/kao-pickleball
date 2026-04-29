@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { twMerge } from "tailwind-merge";
+import PlayerItem from "./PlayerItem";
 import Card from "@/components/Card";
 import Button from "@/components/Button";
 import { InputGroup } from "@/components/Input";
@@ -7,7 +7,7 @@ import { Minus, Plus, Search } from "lucide-react";
 import { useCheckIn, usePlayer } from "@/hooks/queries";
 import { normalize } from "@/utils";
 import { TEXT } from "@/constants";
-import { ICheckIn, IMatch, IPlayer } from "@/types";
+import { IMatch, IPlayer } from "@/types";
 
 export default function CheckInPlayer({ matchId }: { matchId: IMatch["id"] }) {
     //** Queries */
@@ -21,7 +21,7 @@ export default function CheckInPlayer({ matchId }: { matchId: IMatch["id"] }) {
     const checkInList = useMemo(() => {
         if (!checkInPlayers) return new Map();
 
-        return new Map(checkInPlayers.map((c: ICheckIn) => [c.playerId, c.id]));
+        return new Map(checkInPlayers.map(c => [c.playerId, c.id]));
     }, [checkInPlayers]);
 
     const sortedPlayers = useMemo(() => {
@@ -72,44 +72,40 @@ export default function CheckInPlayer({ matchId }: { matchId: IMatch["id"] }) {
             <div className="h-100 overflow-auto">
                 <div className="flex flex-col gap-3">
                     {sortedPlayers.map(player => (
-                        <Card
+                        <PlayerItem
                             key={player.id}
-                            className={twMerge(
-                                "flex-row justify-between items-center py-2 border",
-                                isCheckedIn(player.id) && "bg-primary-100 border-primary",
-                            )}
-                        >
-                            <Card.Content className="gap-0">
-                                <p className="font-semibold">{player.name}</p>
-                                <p>{`${TEXT.LEVEL} ${player.level}`}</p>
-                            </Card.Content>
-
-                            <Card.Content className="flex-initial">
-                                <Button
-                                    size="sm"
-                                    variant={isCheckedIn(player.id) ? "primary" : "outline"}
-                                    onPress={() => handleAddMatchPlayer(player.id)}
-                                >
-                                    {isCheckedIn(player.id) ? (
-                                        <>
-                                            <Minus />
-                                            {TEXT.DELETE}
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Plus />
-                                            {TEXT.ADD}
-                                        </>
-                                    )}
-                                </Button>
-                            </Card.Content>
-                        </Card>
+                            player={player}
+                            className={
+                                isCheckedIn(player.id) ? "bg-primary-100 border-primary" : ""
+                            }
+                            content={
+                                <Card.Content className="flex-initial">
+                                    <Button
+                                        size="sm"
+                                        variant={isCheckedIn(player.id) ? "primary" : "outline"}
+                                        onPress={() => handleAddMatchPlayer(player.id)}
+                                    >
+                                        {isCheckedIn(player.id) ? (
+                                            <>
+                                                <Minus />
+                                                {TEXT.DELETE}
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Plus />
+                                                {TEXT.ADD}
+                                            </>
+                                        )}
+                                    </Button>
+                                </Card.Content>
+                            }
+                        />
                     ))}
                 </div>
             </div>
 
             <div className="flex gap-1">
-                {TEXT.CHECK_IN}:{" "}
+                {TEXT.CHECK_IN}:
                 <span className="font-semibold text-primary">{checkInList.size}</span>
                 {TEXT.PLAYER}
             </div>

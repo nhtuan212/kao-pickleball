@@ -4,7 +4,7 @@ import { fetchData } from "../fetchData";
 import { convertKeysToCamelCase } from "@/utils";
 import { IMatch } from "@/types";
 
-export const useMatch = () => {
+export const useMatch = (id?: IMatch["id"]) => {
     const endpoint = ROUTE.MATCH;
     const queryKey = ["match"];
     const queryClient = useQueryClient();
@@ -12,6 +12,13 @@ export const useMatch = () => {
     const { isPending, data: matches = [] } = useQuery<IMatch, Error, IMatch[]>({
         queryKey,
         queryFn: () => fetchData(endpoint).then(res => convertKeysToCamelCase(res.data)),
+        enabled: !id,
+    });
+
+    const { isPending: isFetching, data: match } = useQuery<IMatch>({
+        queryKey: [...queryKey, "id"],
+        queryFn: () => fetchData(`${endpoint}/${id}`).then(res => convertKeysToCamelCase(res.data)),
+        enabled: !!id,
     });
 
     const { isPending: isCreating, mutateAsync: createMatch } = useMutation<IMatch, Error, IMatch>({
@@ -59,10 +66,11 @@ export const useMatch = () => {
 
     return {
         matches,
+        match,
         createMatch,
         updateMatch,
         deleteMatch,
 
-        isLoading: isPending || isCreating || isUpdating || isDeleting,
+        isLoading: isPending || isFetching || isCreating || isUpdating || isDeleting,
     };
 };

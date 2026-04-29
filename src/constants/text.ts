@@ -31,4 +31,6 @@ export const TEXT = {
     COURT: "Sân",
     DATE: "Ngày",
     MONTH: "Tháng",
+    END: "Kết thúc",
+    HISTORY: "Lịch sử",
 };
