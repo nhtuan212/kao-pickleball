@@ -23,4 +23,12 @@ export const TEXT = {
     SUCCESSFULLY: "Thành công",
     CANCEL: "Hủy",
     SEARCH: "Tìm kiếm",
+    LOCATION: "Địa điểm",
+    START_TIME: "Giờ bắt đầu",
+    END_TIME: "Giờ kết thúc",
+    COUNT: "Số lượng",
+    DESCRIPTION: "Ghi chú",
+    COURT: "Sân",
+    DATE: "Ngày",
+    MONTH: "Tháng",
 };

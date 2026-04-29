@@ -1,5 +1,4 @@
 import Button from "@/components/Button";
-import Label from "@/components/Label";
 import { toast } from "@/components/Toast";
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
@@ -32,17 +31,16 @@ export default function PlayerForm({ player }: { player?: IPlayer }) {
     //** Functions */
     const handleSubmitPlayer = useDebounce(async (data: IPlayer) => {
         if (player) {
-            return updatePlayer({ id: player.id, body: data }).then(
-                () =>
-                    toast({
-                        title: (
-                            <div className="first-letter:uppercase lowercase">
-                                {`${TEXT.UPDATE} ${TEXT.PLAYER} ${TEXT.SUCCESSFULLY} !`}
-                            </div>
-                        ),
-                    }),
-                closeModal(),
-            );
+            return updatePlayer({ id: player.id, body: data }).then(() => {
+                toast({
+                    title: (
+                        <div className="first-letter:uppercase lowercase">
+                            {`${TEXT.UPDATE} ${TEXT.PLAYER} ${TEXT.SUCCESSFULLY} !`}
+                        </div>
+                    ),
+                });
+                closeModal();
+            });
         }
 
         createPlayer(data);
@@ -53,9 +51,9 @@ export default function PlayerForm({ player }: { player?: IPlayer }) {
         <form onSubmit={handleSubmit(handleSubmitPlayer)}>
             <div className="grid grid-cols-2 gap-4 p-1">
                 <div className="col-span-2">
-                    <Label>{TEXT.NAME}</Label>
                     <Input
                         className="w-full"
+                        label={TEXT.NAME}
                         {...register("name")}
                         placeholder={TEXT.NAME}
                         errorMessage={errors.name}
@@ -63,50 +61,46 @@ export default function PlayerForm({ player }: { player?: IPlayer }) {
                 </div>
 
                 <div className="col-span-2">
-                    <Label>{TEXT.PHONE}</Label>
                     <Input
                         className="w-full"
+                        label={TEXT.PHONE}
                         {...register("phone")}
                         placeholder={TEXT.PHONE}
                         errorMessage={errors.phone}
                     />
                 </div>
 
-                <div>
-                    <Label>{TEXT.GENDER}</Label>
-                    <Controller
-                        control={control}
-                        name="gender"
-                        render={({ field }) => (
-                            <Select
-                                value={field.value}
-                                onChange={field.onChange}
-                                onBlur={field.onBlur}
-                                errorMessage={errors.gender}
-                            >
-                                {GENDER_OPTIONS.map(gender => (
-                                    <Select.Item
-                                        key={gender.id}
-                                        id={gender.id}
-                                        textValue={gender.value}
-                                    >
-                                        {gender.value}
-                                    </Select.Item>
-                                ))}
-                            </Select>
-                        )}
-                    />
-                </div>
+                <Controller
+                    control={control}
+                    name="gender"
+                    render={({ field }) => (
+                        <Select
+                            label={TEXT.GENDER}
+                            value={field.value}
+                            onChange={field.onChange}
+                            onBlur={field.onBlur}
+                            errorMessage={errors.gender}
+                        >
+                            {GENDER_OPTIONS.map(gender => (
+                                <Select.Item
+                                    key={gender.id}
+                                    id={gender.id}
+                                    textValue={gender.value}
+                                >
+                                    {gender.value}
+                                </Select.Item>
+                            ))}
+                        </Select>
+                    )}
+                />
 
-                <div>
-                    <Label>{TEXT.LEVEL}</Label>
-                    <Input
-                        className="w-full"
-                        {...register("level")}
-                        placeholder={TEXT.LEVEL}
-                        errorMessage={errors.level}
-                    />
-                </div>
+                <Input
+                    className="w-full"
+                    label={TEXT.LEVEL}
+                    {...register("level")}
+                    placeholder={TEXT.LEVEL}
+                    errorMessage={errors.level}
+                />
 
                 <Button type="submit" className="col-span-2 w-full">
                     {TEXT.SUBMIT}

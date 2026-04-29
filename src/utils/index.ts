@@ -1,10 +1,3 @@
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
 /**
  * Converts a string from snake_case to camelCase.
  *
@@ -31,17 +24,6 @@ export const convertKeysToCamelCase = <T = any>(obj: { [key: string]: any }): T 
     }
 };
 
-export const formatDate = (
-    date: Date | string | number | null,
-    format: string = "DD/MM/YYYY",
-    locale: string = "vi",
-    timeZone: string = "Asia/Ho_Chi_Minh",
-) => {
-    if (!date) return "undefined";
-
-    return dayjs.utc(date).tz(timeZone).locale(locale).format(format);
-};
-
 //** Support Vietnamese text search */
 export const normalize = (str: string) =>
     str
@@ -49,4 +31,5 @@ export const normalize = (str: string) =>
         .replace(/[\u0300-\u036f]/g, "")
         .toLowerCase();
 
+export * from "./date";
 export * from "./schema";

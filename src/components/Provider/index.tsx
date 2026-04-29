@@ -3,6 +3,7 @@
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 import ReactQueryProvider from "./ReactQueryProvider";
+import { I18nProvider } from "@heroui/react";
 
 export default function Provider({
     children,
@@ -12,8 +13,10 @@ export default function Provider({
     session: Session;
 }) {
     return (
-        <SessionProvider session={session} refetchInterval={5 * 60}>
-            <ReactQueryProvider>{children}</ReactQueryProvider>
-        </SessionProvider>
+        <I18nProvider locale="vi-VN">
+            <SessionProvider session={session} refetchInterval={5 * 60}>
+                <ReactQueryProvider>{children}</ReactQueryProvider>
+            </SessionProvider>
+        </I18nProvider>
     );
 }

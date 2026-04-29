@@ -1,3 +1,11 @@
+import { ErrorOption } from "react-hook-form";
+
+export interface IField {
+    label?: React.ReactNode;
+    labelClassName?: string;
+    icon?: React.ReactNode;
+    errorMessage?: ErrorOption;
+}
 export interface ILogin {
     id: string;
     username: string;

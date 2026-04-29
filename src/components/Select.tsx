@@ -1,25 +1,28 @@
+import Label from "./Label";
 import { ListBox, Select as SelectHeroUI, SelectProps } from "@heroui/react";
 import ErrorMessage from "./ErrorMessage";
-import { ErrorOption } from "react-hook-form";
+import { IField } from "@/types";
 
-type ISelect = SelectProps<object> & {
-    errorMessage?: ErrorOption;
-};
+type ISelect = SelectProps<object> & IField;
 
-const Select = ({ errorMessage, children, ...props }: ISelect) => {
+const Select = ({ label, labelClassName, errorMessage, children, ...props }: ISelect) => {
     return (
-        <SelectHeroUI aria-label="Options" {...props}>
-            <SelectHeroUI.Trigger className="border border-gray-300 rounded-lg">
-                <SelectHeroUI.Value />
-                <SelectHeroUI.Indicator />
-            </SelectHeroUI.Trigger>
+        <div>
+            {label && <Label className={labelClassName}>{label}</Label>}
 
-            <SelectHeroUI.Popover className="rounded-lg">
-                <ListBox>{children}</ListBox>
-            </SelectHeroUI.Popover>
+            <SelectHeroUI aria-label="Options" {...props}>
+                <SelectHeroUI.Trigger className="border border-gray-300 rounded-lg">
+                    <SelectHeroUI.Value />
+                    <SelectHeroUI.Indicator />
+                </SelectHeroUI.Trigger>
 
-            {errorMessage && <ErrorMessage>{errorMessage.message}</ErrorMessage>}
-        </SelectHeroUI>
+                <SelectHeroUI.Popover className="rounded-lg">
+                    <ListBox>{children}</ListBox>
+                </SelectHeroUI.Popover>
+
+                {errorMessage && <ErrorMessage>{errorMessage.message}</ErrorMessage>}
+            </SelectHeroUI>
+        </div>
     );
 };
 

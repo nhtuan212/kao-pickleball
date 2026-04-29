@@ -32,7 +32,7 @@ const Modal = () => {
                         {isClose && <ModalHeroUI.CloseTrigger />}
                         <ModalHeroUI.Header>{header}</ModalHeroUI.Header>
                         <ModalHeroUI.Body>{body}</ModalHeroUI.Body>
-                        <ModalHeroUI.Footer>{footer}</ModalHeroUI.Footer>
+                        {footer && <ModalHeroUI.Footer>{footer}</ModalHeroUI.Footer>}
                     </ModalHeroUI.Dialog>
                 </ModalHeroUI.Container>
             </ModalHeroUI.Backdrop>
