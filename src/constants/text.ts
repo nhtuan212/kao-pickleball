@@ -33,4 +33,6 @@ export const TEXT = {
     MONTH: "Tháng",
     END: "Kết thúc",
     HISTORY: "Lịch sử",
+    NOT_FOUND: "Không tìm thấy",
+    COMPLETED: "Hoàn thành",
 };

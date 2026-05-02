@@ -35,3 +35,5 @@ export interface IMenu {
 export * from "./match";
 export * from "./player";
 export * from "./checkIn";
+export * from "./game";
+export * from "./gamePlayer";

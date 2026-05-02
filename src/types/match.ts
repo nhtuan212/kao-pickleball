@@ -1,3 +1,4 @@
+import { IGame } from ".";
 export interface IMatch {
     id: string;
     name: string;
@@ -8,4 +9,6 @@ export interface IMatch {
     description: string;
     startTime: string;
     endTime: string;
+
+    games: IGame[];
 }

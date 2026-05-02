@@ -28,6 +28,9 @@ export const ROUTE = {
     MATCH: "/match",
     PLAYER: "/player",
     CHECK_IN: "/check-in",
+    GAME: "/game",
+    GAME_PLAYER: "/game-player",
+    COMPLETED: "/completed",
 };
 
 export * from "./text";

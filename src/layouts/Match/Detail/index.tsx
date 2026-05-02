@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import MatchHistory from "./MatchHistory";
 import PlayerInMatch from "@/layouts/Player/PlayerInMatch";
-import Court from "@/layouts/Court";
+import Court from "@/layouts/Match/Detail/Court";
 import Chip from "@/components/Chip";
 import Button from "@/components/Button";
 import { Tab } from "@/components/Tab";
@@ -27,7 +28,7 @@ export default function MatchDetail({ slug }: { slug: IMatch["id"] }) {
         {
             id: TEXT.MATCH,
             label: TEXT.MATCH,
-            content: <Court players={checkInPlayers} courtCount={match.court} />,
+            content: <Court matchId={slug} players={checkInPlayers} courtCount={match.court} />,
         },
         {
             id: TEXT.PLAYER,
@@ -37,7 +38,7 @@ export default function MatchDetail({ slug }: { slug: IMatch["id"] }) {
         {
             id: TEXT.HISTORY,
             label: TEXT.HISTORY,
-            content: <p>Generate and download detailed reports.</p>,
+            content: <MatchHistory players={checkInPlayers} games={match.games} />,
         },
     ];
 
