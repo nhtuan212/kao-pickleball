@@ -46,7 +46,7 @@ export function Pagination({ total = 0, onPageChange, ...props }: IPagination) {
                             isDisabled={page === 1}
                             onPress={() => {
                                 setPage(p => p - 1);
-                                onPageChange(page - 1);
+                                typeof onPageChange === "function" && onPageChange(page - 1);
                             }}
                         >
                             <PaginationHeroUI.PreviousIcon />
@@ -64,7 +64,7 @@ export function Pagination({ total = 0, onPageChange, ...props }: IPagination) {
                                     isActive={p === page}
                                     onPress={() => {
                                         setPage(p);
-                                        onPageChange(p);
+                                        typeof onPageChange === "function" && onPageChange(p);
                                     }}
                                 >
                                     {p}
@@ -77,7 +77,7 @@ export function Pagination({ total = 0, onPageChange, ...props }: IPagination) {
                             isDisabled={page === total}
                             onPress={() => {
                                 setPage(p => p + 1);
-                                onPageChange(page + 1);
+                                typeof onPageChange === "function" && onPageChange(page + 1);
                             }}
                         >
                             <span>Next</span>

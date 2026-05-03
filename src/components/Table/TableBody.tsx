@@ -55,7 +55,7 @@ export default function TableBody({ ...props }: TableBodyProps) {
     }, [columns, pinnedColumns]);
 
     //** Functions */
-    const handleChecked = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+    const handleChecked = (id: number) => {
         const idChecked = itemList?.indexOf(id);
         let newChecked: readonly number[] = [];
         if (idChecked === -1) {
@@ -95,8 +95,8 @@ export default function TableBody({ ...props }: TableBodyProps) {
                 <div className="flex items-center px-3 py-2">
                     <Checkbox
                         isSelected={isChecked(id)}
-                        onChange={e => {
-                            handleChecked(e, id);
+                        onChange={() => {
+                            handleChecked(id);
                         }}
                     />
                 </div>

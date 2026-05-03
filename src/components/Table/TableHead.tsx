@@ -108,7 +108,7 @@ export default function TableHead({ ...props }: TableHeadProps) {
                 <div className="flex items-center px-3 py-2 font-semibold text-tiny">
                     <Checkbox
                         defaultSelected={isAllChecked}
-                        onChange={e => handleOnChange(e.target.checked)}
+                        onChange={checked => handleOnChange(checked)}
                     />
                 </div>
             );
