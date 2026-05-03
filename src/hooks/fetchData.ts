@@ -8,6 +8,8 @@ export const fetchData = async (endpoint: string | URL, options?: RequestInit) =
 
     const isPublic = PUBLIC_ROUTES.some(e => endpoint.toString().startsWith(e));
 
+    console.log({ isPublic, accessToken });
+
     return await fetch(url, {
         headers: {
             Accept: "application/json",
