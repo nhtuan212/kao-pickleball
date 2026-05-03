@@ -37,8 +37,9 @@ export const config = {
                 const cookieStore = await cookies();
                 cookieStore.set("accessToken", user.accessToken, {
                     httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
-                    sameSite: "strict",
+                    // secure: process.env.NODE_ENV === "production",
+                    secure: false, // turn on true if use https
+                    sameSite: "lax",
                     maxAge: 60 * 60 * 24, // Alive time before the cookie was removed
                     path: "/",
                 });
@@ -49,6 +50,7 @@ export const config = {
 
         async session({ session, token }) {
             session.user = token;
+
             return session;
         },
     },
