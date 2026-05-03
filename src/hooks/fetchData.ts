@@ -1,14 +1,12 @@
 import { getCookie } from "@/utils/getCookie";
-import { signOut } from "next-auth/react";
-import { BASE_URL, PUBLIC_ROUTES, STATUS_CODE } from "@/constants";
+// import { signOut } from "next-auth/react";
+import { BASE_URL, PUBLIC_ROUTES } from "@/constants";
 
 export const fetchData = async (endpoint: string | URL, options?: RequestInit) => {
     const { accessToken } = await getCookie();
     const url = `${BASE_URL}${endpoint}`;
 
     const isPublic = PUBLIC_ROUTES.some(e => endpoint.toString().startsWith(e));
-
-    console.log({ isPublic, accessToken });
 
     return await fetch(url, {
         headers: {
@@ -19,9 +17,11 @@ export const fetchData = async (endpoint: string | URL, options?: RequestInit) =
         ...options,
     })
         .then(async res => {
-            if (res.status === STATUS_CODE.UNAUTHORIZED) {
-                return await signOut();
-            }
+            console.log({ isPublic, accessToken, res });
+
+            // if (res.status === STATUS_CODE.UNAUTHORIZED) {
+            //     return await signOut();
+            // }
 
             return res.json();
         })
