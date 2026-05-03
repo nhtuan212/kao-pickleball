@@ -14,6 +14,7 @@ export interface IGamePlayer {
 }
 
 export interface ICompleteGame {
+    gameId: IGame["id"];
     team1: {
         score: IGamePlayer["score"];
         players: IPlayer["id"][];

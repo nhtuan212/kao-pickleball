@@ -9,7 +9,11 @@ export const useCheckIn = (matchId?: IMatch["id"]) => {
     const queryKey = ["checkIn", matchId];
     const queryClient = useQueryClient();
 
-    const { isPending, data: checkInPlayers = [] } = useQuery<ICheckIn, Error, ICheckIn[]>({
+    const { isPending, data: checkInPlayers = [] } = useQuery<
+        ICheckIn,
+        Error,
+        (ICheckIn & IPlayer)[]
+    >({
         queryKey,
         queryFn: () =>
             fetchData(`${endpoint}?matchId=${matchId}`).then(res =>

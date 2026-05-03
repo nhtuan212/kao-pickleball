@@ -38,7 +38,7 @@ export default function MatchDetail({ slug }: { slug: IMatch["id"] }) {
         {
             id: TEXT.HISTORY,
             label: TEXT.HISTORY,
-            content: <MatchHistory players={checkInPlayers} games={match.games} />,
+            content: <MatchHistory games={match.games} />,
         },
     ];
 

@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import { Plus } from "lucide-react";
 import { useGame } from "@/hooks/queries";
 import { TEXT } from "@/constants";
-import { ICheckIn, IGame, IMatch } from "@/types";
+import { ICheckIn, IGame, IMatch, IPlayer } from "@/types";
 
 export default function CourtItem({
     matchId,
@@ -13,7 +13,7 @@ export default function CourtItem({
     game,
 }: {
     matchId: IMatch["id"];
-    players: ICheckIn[];
+    players: (ICheckIn & IPlayer)[];
     court: number;
     game?: IGame;
 }) {
@@ -40,7 +40,7 @@ export default function CourtItem({
             );
         }
 
-        return <CourtForm game={game} players={players} />;
+        return <CourtForm matchId={matchId} game={game} players={players} />;
     };
 
     return (

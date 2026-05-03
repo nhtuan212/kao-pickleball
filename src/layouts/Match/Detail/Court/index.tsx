@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import CourtItem from "./CourtItem";
 import { useGame } from "@/hooks/queries";
-import { ICheckIn, IGame, IMatch } from "@/types";
+import { ICheckIn, IGame, IMatch, IPlayer } from "@/types";
 
 export default function Court({
     matchId,
@@ -9,7 +9,7 @@ export default function Court({
     courtCount,
 }: {
     matchId: IMatch["id"];
-    players: ICheckIn[];
+    players: (ICheckIn & IPlayer)[];
     courtCount: number;
 }) {
     //** Queries */

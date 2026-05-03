@@ -30,7 +30,7 @@ export const useGame = (matchId?: IMatch["id"]) => {
                 body: JSON.stringify(body),
             }).then(res => convertKeysToCamelCase(res.data)),
         onSuccess: res => {
-            queryClient.setQueriesData({ queryKey }, (prev: IGame[]) => [res, ...prev]);
+            queryClient.setQueryData(queryKey, (prev: IGame[]) => [res, ...prev]);
         },
     });
 
@@ -42,19 +42,30 @@ export const useGame = (matchId?: IMatch["id"]) => {
     };
 };
 
-export const useCompletedGame = () => {
+export const useCompletedGame = (matchId: IMatch["id"]) => {
     const queryClient = useQueryClient();
     const endpoint = ROUTE.COMPLETED;
 
     const { isPending: isUpdating, mutateAsync: completedGame } = useMutation({
-        mutationFn: ({ id, body }: { id: IGame["id"]; body: ICompleteGame }) =>
-            fetchData(`${endpoint}/${id}`, {
-                method: "PUT",
+        mutationFn: (body: ICompleteGame) =>
+            fetchData(endpoint, {
+                method: "POST",
                 body: JSON.stringify(body),
             }).then(res => convertKeysToCamelCase(res.data)),
         onSuccess: res => {
-            queryClient.setQueriesData({ queryKey }, (prev: IGame[]) => {
+            localStorage.removeItem(`game_draft_${res.id}`);
+
+            queryClient.setQueryData(queryKey, (prev: IGame[]) => {
                 return prev.filter(prev => prev.id !== res.id);
+            });
+
+            queryClient.setQueryData(["match", matchId], (prevMatch: IMatch) => {
+                if (!prevMatch) return prevMatch;
+
+                return {
+                    ...prevMatch,
+                    games: [res, ...prevMatch.games],
+                };
             });
         },
     });

@@ -16,7 +16,7 @@ export const useMatch = (id?: IMatch["id"]) => {
     });
 
     const { isPending: isFetching, data: match } = useQuery<IMatch>({
-        queryKey: [...queryKey, "id"],
+        queryKey: [...queryKey, id],
         queryFn: () => fetchData(`${endpoint}/${id}`).then(res => convertKeysToCamelCase(res.data)),
         enabled: !!id,
     });

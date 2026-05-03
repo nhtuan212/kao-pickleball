@@ -1,23 +1,31 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Button from "@/components/Button";
 import { Autocomplete } from "@/components/Autocomplete";
 import { Input } from "@/components/Input";
-import { Key } from "@heroui/react";
 import { TEXT } from "@/constants";
 import { useAppForm } from "@/hooks";
-import { useCompletedGame, useCreateGamePlayer, useDeleteGamePlayer } from "@/hooks/queries";
+import { useCompletedGame } from "@/hooks/queries";
 import { Controller } from "react-hook-form";
 import { gamePlayerSchema, IGamePlayerForm } from "@/utils";
-import { ICheckIn, IGame } from "@/types";
+import { ICheckIn, IGame, IMatch, IPlayer } from "@/types";
 
-export default function CourtForm({ game, players }: { game: IGame; players: ICheckIn[] }) {
+export default function CourtForm({
+    matchId,
+    game,
+    players,
+}: {
+    matchId: IMatch["id"];
+    game: IGame;
+    players: (ICheckIn & IPlayer)[];
+}) {
     //** Queries */
-    const { createGamePlayer } = useCreateGamePlayer();
-    const { deleteGamePlayer } = useDeleteGamePlayer();
-    const { completedGame } = useCompletedGame();
+    const { completedGame } = useCompletedGame(matchId);
 
     //** Functions */
     const transformGameData = (game: IGame) => {
+        const saved = localStorage.getItem(`game_draft_${game.id}`);
+        if (saved) return JSON.parse(saved);
+
         const team1Ids = game?.players?.filter(p => p.team === 1).map(p => p.id) || [];
         const team2Ids = game?.players?.filter(p => p.team === 2).map(p => p.id) || [];
 
@@ -31,27 +39,6 @@ export default function CourtForm({ game, players }: { game: IGame; players: ICh
                 score: 0,
             },
         };
-    };
-
-    const handleChangePlayer = (teamIndex: number, playerId: Key | null, oldId: Key | null) => {
-        if (!playerId) return null;
-
-        //** Delete player ID when change others */
-        if (oldId && oldId !== playerId && typeof oldId === "string") {
-            deleteGamePlayer(oldId);
-        }
-
-        if (typeof playerId === "string") {
-            createGamePlayer({ gameId: game.id, playerId, team: teamIndex + 1 });
-        }
-    };
-
-    const handleDeletePlayer = (playerId: Key | null) => {
-        if (!playerId) return null;
-
-        if (typeof playerId === "string") {
-            deleteGamePlayer(playerId);
-        }
     };
 
     //** Use App Form */
@@ -68,10 +55,12 @@ export default function CourtForm({ game, players }: { game: IGame; players: ICh
     const formValues = watch();
 
     const handleSubmitGame = (data: IGamePlayerForm) => {
-        completedGame({
-            id: game.id,
-            body: data,
-        });
+        const result = {
+            gameId: game.id,
+            ...data,
+        };
+
+        completedGame(result);
     };
 
     //** Variables */
@@ -87,6 +76,11 @@ export default function CourtForm({ game, players }: { game: IGame; players: ICh
             id => id && id !== "",
         );
     }, [formValues]);
+
+    //** Effect */
+    useEffect(() => {
+        localStorage.setItem(`game_draft_${game.id}`, JSON.stringify(formValues));
+    }, [formValues, game.id]);
 
     //** Render */
     const renderPlayers = (teamIndex: number, teamName: "team1" | "team2") =>
@@ -107,15 +101,8 @@ export default function CourtForm({ game, players }: { game: IGame; players: ICh
                         <Autocomplete
                             placeholder={TEXT.PLAYER}
                             value={selectedKeys[teamIndex][i]}
-                            onChange={key => {
-                                handleChangePlayer(teamIndex, key, field.value);
-                                field.onChange(key);
-                            }}
-                            onClearValue={key => {
-                                console.log("cleared!", key);
-                                handleDeletePlayer(key);
-                                field.onChange(null);
-                            }}
+                            onChange={key => field.onChange(key)}
+                            onClearValue={() => field.onChange("")}
                             errorMessage={fieldState.error}
                         >
                             {availablePlayers.map(p => (

@@ -1,4 +1,20 @@
 /**
+ * Checks if the provided data is empty.
+ *
+ * @param data - The data to check, which can be an array of strings or numbers, or an object.
+ * @returns `true` if the data is empty, `false` otherwise.
+ */
+export const isEmpty = (data: Array<string | number> | object) => {
+    if (!data) return true;
+
+    if (Array.isArray(data)) {
+        return data.length === 0;
+    }
+
+    return Object.keys(data).length === 0;
+};
+
+/**
  * Converts a string from snake_case to camelCase.
  *
  * @param str - The string to convert.
